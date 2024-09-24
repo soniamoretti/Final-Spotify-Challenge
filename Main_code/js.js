@@ -1,5 +1,5 @@
 // The GitHub raw URL for the JSON file
-const jsonUrl = "https://raw.githubusercontent.com/soniamoretti/Project-3-Top-Sporify-Songs/refs/heads/main/Resources/Spotify_songs.json";
+const jsonUrl = "https://raw.githubusercontent.com/soniamoretti/Final-Spotify-Challenge/refs/heads/main/Resources/Spotify_songs.json";
 
 // Load the Spotify JSON data using d3.json
 d3.json(jsonUrl).then((songs) => {
