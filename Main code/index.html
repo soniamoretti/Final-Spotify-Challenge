@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Song Analysis</title>
+    
+    <!-- Stylesheet-->
+    <link rel="stylesheet" href="css.css">
+
+    <!-- Highcharts & scrips -->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/wordcloud.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+
+    <!-- Importing main js logic file -->
+    <script src="js.js" defer></script>
+</head>
+<body>
+
+    <div class="section" style="background-color: #12D861">
+        <div class="main-container">
+        <div class="content_header">
+            <div style="width: 50%;"  >
+            <h1 style="max-width: 550px;">Analyzing the most streamed Spotify songs of 2023</h1>
+            </div>
+            <div style="width: 50%; height: min-content;">
+                <img style="max-height: 80%;" src="../Resources/Log in Page 1.png" alt="Description of image">
+            </div>
+        </div>
+        </div>
+    </div>
+    
+    
+    <div class="section">
+        <div class="main-container">
+            <div class="content">
+            
+                <h1>"2023's Hit Tracks Unveiled: A Spider Chart of Sound"</h1>
+           
+                 <!-- Dropdown for song selection -->
+                    <label for="selDataset">Choose a song:</label>
+                    <select id="selDataset"></select>
+    
+                <!-- Div to display song metadata -->
+                 <div id="song-metadata"></div>
+    
+                <!-- Container for the spiderweb chart -->
+                <div id="container" style="width: 600px; height: 400px; margin: 0 auto"></div>
+        
+            </div>
+        </div>
+    
+    </div>
+    
+
+    <!-- Container for the Wordcloud chart -->
+    <figure class="highcharts-figure">
+        <div id="container-wc"></div>
+        <p class="highcharts-description">
+            Wordcloud showing the most common artists in Spotify songs.
+        </p>
+    </figure>
+
+    <!-- NEW SECTION: Container for the Bar Chart (Top 20 Songs by Streams) -->
+    <div id="container-bar" style="width: 600px; height: 400px; margin: 0 auto;"></div>
+    <!-- End of new section -->
+
+</body>
+</html>
+
+
