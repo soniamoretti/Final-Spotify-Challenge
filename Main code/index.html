@@ -36,40 +36,36 @@
     </div>
     
     
-    <div class="section">
+    <div class="section" style="width: 1065px; height: 740px; margin: 0 auto">
         <div class="main-container">
             <div class="content">
-            
+                <!-- 1st chart title (Spyder) -->
                 <h1>"2023's Hit Tracks Unveiled: A Spider Chart of Sound"</h1>
-           
-                 <!-- Dropdown for song selection -->
+                <!-- Dropdown for song selection -->
+                <div class="dropdown-container">
                     <label for="selDataset">Choose a song:</label>
                     <select id="selDataset"></select>
-    
-                <!-- Div to display song metadata -->
-                 <div id="song-metadata"></div>
-    
+                </div>
                 <!-- Container for the spiderweb chart -->
                 <div id="container" style="width: 600px; height: 400px; margin: 0 auto"></div>
-        
             </div>
         </div>
-    
     </div>
     
 
     <!-- Container for the Wordcloud chart -->
     <figure class="highcharts-figure">
+        <h1>"Who is the most popular Artist on Spotify 2023?"</h1>
+        <h3>"Wordcloud showing the most repeated artists in Spotify songs."</h3>
         <div id="container-wc"></div>
-        <p class="highcharts-description">
-            Wordcloud showing the most common artists in Spotify songs.
-        </p>
     </figure>
 
-    <!-- NEW SECTION: Container for the Bar Chart (Top 20 Songs by Streams) -->
-    <div id="container-bar" style="width: 600px; height: 400px; margin: 0 auto;"></div>
-    <!-- End of new section -->
-
+    <!-- Container for the Bar Chart (Top 20 Songs by Streams) -->
+    <figure class="highcharts-figure">
+        <h1>"What songs are the most streamed??"</h1>
+        <div id="container-bar" style="width: 600px; height: 400px; margin: 0 auto;"></div>
+    </figure>
+     
 </body>
 </html>
 
