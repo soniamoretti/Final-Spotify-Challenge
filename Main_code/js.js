@@ -3,36 +3,33 @@ const jsonUrl = "https://raw.githubusercontent.com/soniamoretti/Final-Spotify-Ch
 
 // Load the Spotify JSON data using d3.json
 d3.json(jsonUrl).then((songs) => {
-    // Sort the songs alphabetically by track name
-    songs.sort((a, b) => {
+    // Sorted copy for the dropdown
+    let sortedSongs = [...songs].sort((a, b) => {
         const nameA = String(a.track_name || "");
         const nameB = String(b.track_name || "");
         return nameA.localeCompare(nameB);
     });
 
-   // Populate the dropdown with track names and artist names, truncating long names
-let dropdown = d3.select("#selDataset");
-songs.forEach((song, index) => {
-    // Create the display text: track name + artist name
-    let trackWithArtist = `${song.track_name} by ${song["artist(s)_name"]}`;
-    // Truncate if longer than 40 characters (adjust as needed)
-    let truncatedTrack = trackWithArtist.length > 40 ? trackWithArtist.substring(0, 37) + '...' : trackWithArtist;
-    // Append the truncated song name to the dropdown
-    dropdown.append("option")
-        .text(truncatedTrack)
-        .property("value", index);
-});
+    // Populate the dropdown
+    let dropdown = d3.select("#selDataset");
+    sortedSongs.forEach((song, index) => {
+        let trackWithArtist = `${song.track_name} by ${song["artist(s)_name"]}`;
+        let truncatedTrack = trackWithArtist.length > 40 ? trackWithArtist.substring(0, 37) + '...' : trackWithArtist;
+        dropdown.append("option")
+            .text(truncatedTrack)
+            .property("value", index);
+    });
 
-
-    // Build the initial radar chart with the first song
-    let firstSong = songs[0];
+    // Build radar chart for the first song from the unsorted list
+    let firstSong = sortedSongs[0];
     buildRadarChart(firstSong);
 
-    // Update radar chart when a new song is selected
+    // Update radar chart based on the selected song from the sorted list
     dropdown.on("change", function () {
         let selectedIndex = dropdown.property("value");
-        let selectedSong = songs[selectedIndex];
-        buildRadarChart(selectedSong);
+        let selectedSong = sortedSongs[selectedIndex]; // Match selection from sorted array
+        let originalSong = songs.find(song => song.track_name === selectedSong.track_name); // Find the song in the unsorted list
+        buildRadarChart(originalSong); // Pass the correct song data to the radar chart
     });
 
     // Create the Wordcloud chart
