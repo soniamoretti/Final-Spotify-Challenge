@@ -7,7 +7,7 @@
 /* General body styling with Spotify green background */
 body {
     font-family: 'Circular Std', sans-serif;
-    background-color: #1DB954; /* Spotify green background */
+    background-color: #00B347; /* Spotify green background */
     margin: 0;
     padding: 0;
 }
@@ -41,11 +41,16 @@ body {
 }
 
 .content {
-    padding: 100px 150px;
+    padding: 40px 150px;
     justify-content: center;
 }
 
-/* Remove extra space between spider chart and word chart */
+h2{
+    display: flex;
+    justify-content: center;
+}
+
+/* For spider chart  */
 .dropdown-container {
     margin-bottom: 20px;
     text-align: center;
@@ -97,7 +102,7 @@ body {
 /* Highcharts figure container styling */
 .highcharts-figure {
     min-width: 320px;
-    max-width: 700px;
+    width: 900px;
     margin: 1em auto;
     margin-top: 20px; /* Reducing top margin */
 }
@@ -137,4 +142,9 @@ body {
 
 .highcharts-data-table tr:hover {
     background: #f1f7ff;
+}
+
+
+.highcharts-series-group {
+    width: 100%;
 }

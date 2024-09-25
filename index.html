@@ -29,41 +29,51 @@
             <h1 style="max-width: 550px;">Analyzing the most streamed Spotify songs of 2023</h1>
             </div>
             <div style="width: 50%; height: min-content;">
-                <img style="max-height: 80%;" src="./Resources/Log in Page 1.png" alt="Description of image">
+                <img style="max-height: 100%;" src="./Resources/Log in Page 1.png" alt="Description of image">
             </div>
         </div>
         </div>
     </div>
-    
-    <div class="section" style="width: 1065px; height: 740px; margin: 0 auto">
+    <div class="section">
+        <div class="main-container">
+            <div class="content">
+                 <!-- Container for the Bar Chart (Top 20 Songs by Streams) -->
+                 <h2>"What songs are the most streamed??"</h2>
+                <figure class="highcharts-figure">
+                    <div id="container-bar" style="width: 80%; height: 800px; margin: 0 auto;"></div>
+                </figure> 
+            </div>
+        </div>
+    </div>
+    <div class="section">
+        <div class="main-container">
+            <div class="content">
+                <!-- Container for the Wordcloud chart -->
+                <h2>"Who is the most popular Artist on Spotify 2023?"</h2>
+                <h3>"Wordcloud showing the most repeated artists in Spotify songs."</h3>
+                <figure class="highcharts-figure">
+                <div id="container-wc"></div>
+                </figure>
+            </div>
+        </div>
+    </div>
+    <div class="section">
         <div class="main-container">
             <div class="content">
                 <!-- 1st chart title (Spyder) -->
-                <h1>"2023's Hit Tracks Unveiled: A Spider Chart of Sound"</h1>
+                <h2>"2023's Hit Tracks Unveiled: A Spider Chart of Sound"</h2>
                 <!-- Dropdown for song selection -->
                 <div class="dropdown-container">
                     <label for="selDataset">Choose a song:</label>
                     <select id="selDataset"></select>
+                    <!-- Div to display song metadata -->
+                 <div id="song-metadata"></div>
                 </div>
                 <!-- Container for the spiderweb chart -->
                 <div id="container" style="width: 600px; height: 400px; margin: 0 auto"></div>
             </div>
         </div>
     </div>
-    
-
-    <!-- Container for the Wordcloud chart -->
-    <figure class="highcharts-figure">
-        <h1>"Who is the most popular Artist on Spotify 2023?"</h1>
-        <h3>"Wordcloud showing the most repeated artists in Spotify songs."</h3>
-        <div id="container-wc"></div>
-    </figure>
-
-    <!-- Container for the Bar Chart (Top 20 Songs by Streams) -->
-    <figure class="highcharts-figure">
-        <h1>"What songs are the most streamed??"</h1>
-        <div id="container-bar" style="width: 600px; height: 400px; margin: 0 auto;"></div>
-    </figure>
      
 </body>
 </html>

@@ -10,6 +10,7 @@ d3.json(jsonUrl).then((songs) => {
         return nameA.localeCompare(nameB);
     });
 
+    // ** SPIDER CHART **
     // Populate the dropdown
     let dropdown = d3.select("#selDataset");
     sortedSongs.forEach((song, index) => {
@@ -19,11 +20,9 @@ d3.json(jsonUrl).then((songs) => {
             .text(truncatedTrack)
             .property("value", index);
     });
-
     // Build radar chart for the first song from the unsorted list
     let firstSong = sortedSongs[0];
     buildRadarChart(firstSong);
-
     // Update radar chart based on the selected song from the sorted list
     dropdown.on("change", function () {
         let selectedIndex = dropdown.property("value");
@@ -31,6 +30,107 @@ d3.json(jsonUrl).then((songs) => {
         let originalSong = songs.find(song => song.track_name === selectedSong.track_name); // Find the song in the unsorted list
         buildRadarChart(originalSong); // Pass the correct song data to the radar chart
     });
+    // Function to build the radar (spiderweb) chart
+    function buildRadarChart(song) {
+        // Define categories for readability
+        const categories = ['Danceability 💃 ', 'Valence 😁 ', 'Energy ⚡ ', 'Acousticness 🎻 ', 'Instrumentalness 🙊 ', 'Liveness 📺 ', 'Speechiness 📣 '];
+        Highcharts.chart('container', {
+            chart: {
+                polar: true,
+                type: 'area',
+                backgroundColor: '#191414', // Spotify dark background
+            },
+            title: {
+                text: `${song.track_name} by ${song["artist(s)_name"]}`,
+                style: {
+                    color: '#FFFFFF' // White title text
+                }
+            },
+            pane: {
+                size: '80%',
+                background: [{
+                    backgroundColor: '#191414', // Dark background for the pane
+                    borderWidth: 1,
+                    borderColor: '#1DB954' // Spotify green border
+                }]
+            },
+            xAxis: {
+                categories: categories,
+                tickmarkPlacement: 'on',
+                lineWidth: 0,
+                labels: {
+                    style: {
+                        color: '#FFFFFF' // White labels for better visibility
+                    }
+                }
+            },
+            yAxis: {
+                gridLineInterpolation: 'polygon',
+                lineWidth: 0,
+                min: 0,
+                title: {
+                    style: {
+                        color: '#FFFFFF' // White y-axis title
+                    }
+                },
+                labels: {
+                    style: {
+                        color: '#FFFFFF' // White y-axis labels for better visibility
+                    }
+                }
+            },
+            tooltip: {
+                formatter: function () {
+                    // Get the category based on the hovered point's index
+                    const category = categories[this.point.index];
+                    return `<b>${category}:</b> ${this.y}%`; // Display the category with the percentage value
+                },
+                style: {
+                    color: '#FFFFFF' // White tooltip text
+                },
+                backgroundColor: '#1DB954', // Spotify green background
+                borderColor: '#FFFFFF', // White border
+            },
+            plotOptions: {
+                series: {
+                    fillColor: {
+                        linearGradient: { x1: 0, y1: 0, x2: 1, y2: 1 },
+                        stops: [
+                            [0, 'rgba(29, 185, 84, 0.8)'], // Spotify green with some transparency
+                            [1, 'rgba(29, 185, 84, 0.8)']  // Same green
+                        ]
+                    },
+                    lineWidth: 2,
+                    marker: {
+                        enabled: true,
+                        radius: 2,
+                        fillColor: '#1DB954', // Spotify green
+                        lineWidth: 1,
+                        lineColor: '#FFFFFF' // White border around the markers
+                    }
+                }
+            },
+            series: [{
+                name: song.track_name,
+                data: [
+                    song["danceability_%"],
+                    song["valence_%"],
+                    song["energy_%"],
+                    song["acousticness_%"],
+                    song["instrumentalness_%"],
+                    song["liveness_%"],
+                    song["speechiness_%"]
+                ],
+                pointPlacement: 'on',
+                color: '#1DB954', // Line color
+            }],
+            legend: {
+                itemStyle: {
+                    color: '#FFFFFF', // White legend text
+                }
+            }
+        });
+    }
 
     // Create the Wordcloud chart
     const wordcloudData = processWordcloudData(songs);
@@ -90,16 +190,23 @@ function processWordcloudData(songs) {
     return filteredData;
 }
 
+
 // Function to process the top 20 songs based on streams for the bar chart
 function processBarChartData(songs) {
-    // Sort the songs by streams in descending order and take the top 20
+    // Convert 'streams' to ensure they are all numbers (handle $numberLong case)
+    songs.forEach(song => {
+        if (typeof song.streams === 'object' && song.streams.$numberLong) {
+            song.streams = parseInt(song.streams.$numberLong, 10); // Convert $numberLong to integer
+        } else {
+            song.streams = Number(song.streams); // Convert other values to number
+        }
+    });
+    // Sort the remaining songs by streams in descending order
     const topSongs = songs.sort((a, b) => b.streams - a.streams).slice(0, 20);
-
     // Prepare data for the bar chart
     const categories = topSongs.map(song => song.track_name); // Song names
     const streams = topSongs.map(song => song.streams); // Stream counts
     const artists = topSongs.map(song => song["artist(s)_name"]); // Artist names
-
     return { categories, streams, artists };
 }
 
@@ -179,100 +286,6 @@ function buildBarChart(categories, streams, artists) {
         },
         credits: {
             enabled: false
-        }
-    });
-}
-
-// Function to build the radar (spiderweb) chart
-function buildRadarChart(song) {
-    Highcharts.chart('container', {
-        chart: {
-            polar: true,
-            type: 'area',
-            backgroundColor: '#191414', // Spotify dark background
-        },
-        title: {
-            text: `${song.track_name} by ${song["artist(s)_name"]}`,
-            style: {
-                color: '#FFFFFF' // White title text
-            }
-        },
-        pane: {
-            size: '80%',
-            background: [{
-                backgroundColor: '#191414', // Dark background for the pane
-                borderWidth: 1,
-                borderColor: '#1DB954' // Spotify green border
-            }]
-        },
-        xAxis: {
-            categories: ['Danceability', 'Valence', 'Energy', 'Acousticness', 'Instrumentalness', 'Liveness', 'Speechiness'],
-            tickmarkPlacement: 'on',
-            lineWidth: 0,
-            labels: {
-                style: {
-                    color: '#FFFFFF' // White labels for better visibility
-                }
-            }
-        },
-        yAxis: {
-            gridLineInterpolation: 'polygon',
-            lineWidth: 0,
-            min: 0,
-            title: {
-                style: {
-                    color: '#FFFFFF' // White y-axis title
-                }
-            },
-            labels: {
-                style: {
-                    color: '#FFFFFF' // White y-axis labels for better visibility
-                }
-            }
-        },
-        tooltip: {
-            pointFormat: '<span style="color:{series.color}">{series.name}: <b>{point.y}%</b><br/>',
-            style: {
-                color: '#FFFFFF' // White tooltip text
-            }
-        },
-        plotOptions: {
-            series: {
-                fillColor: {
-                    linearGradient: { x1: 0, y1: 0, x2: 1, y2: 1 },
-                    stops: [
-                        [0, 'rgba(29, 185, 84, 0.8)'], // Spotify green with some transparency
-                        [1, 'rgba(29, 185, 84, 0.8)']  // Same green
-                    ]
-                },
-                lineWidth: 2,
-                marker: {
-                    enabled: true,
-                    radius: 2,
-                    fillColor: '#1DB954', // Spotify green
-                    lineWidth: 1,
-                    lineColor: '#FFFFFF' // White border around the markers
-                }
-            }
-        },
-        series: [{
-            name: song.track_name,
-            data: [
-                song["danceability_%"], 
-                song["valence_%"], 
-                song["energy_%"], 
-                song["acousticness_%"], 
-                song["instrumentalness_%"], 
-                song["liveness_%"],
-                song["speechiness_%"]
-            ],
-            pointPlacement: 'on',
-            color: '#1DB954', // Line color
-        }],
-        legend: {
-            itemStyle: {
-                color: '#FFFFFF', // White legend text
-            }
         }
     });
 }
