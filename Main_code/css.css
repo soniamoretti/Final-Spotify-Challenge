@@ -1,13 +1,16 @@
 @font-face {
     font-family: 'Circular Std';
     src: url('../Fonts/CircularStd-Bold.otf') format('truetype'),
-         url('../Fonts/CircularStd-Book.otf') format('truetype');
+            url('../Fonts/CircularStd-Light.otf') format('truetype'),
+            url('../Fonts/CircularStd-Book.otf') format('truetype');
 }
 
 /* General body styling with Spotify green background */
 body {
     font-family: 'Circular Std', sans-serif;
-    background-color: #00B347; /* Spotify green background */
+    font-style: normal;
+    color: #FFFFFF;
+    background-color: #000; /* #00B347 Spotify green background */
     margin: 0;
     padding: 0;
 }
@@ -24,7 +27,6 @@ body {
 }
 
 .content_header {
-    background-color: #12D861; /* Spotify Green */
     display: flex;
     justify-content: center;
     padding-top: 100px;
@@ -46,8 +48,13 @@ body {
 }
 
 h2{
-    display: flex;
-    justify-content: center;
+    text-align: center;
+    font-size: 2.5rem;
+}
+
+.text-body1 p{
+    font-weight: 300;
+
 }
 
 /* For spider chart  */

@@ -5,6 +5,7 @@ const jsonUrl = "https://raw.githubusercontent.com/soniamoretti/Final-Spotify-Ch
 d3.json(jsonUrl).then((songs) => {
     // Sorted copy for the dropdown
     let sortedSongs = [...songs].sort((a, b) => {
+        // | | symbol is a 'OR' operator prevents potential errors for empty records.
         const nameA = String(a.track_name || "");
         const nameB = String(b.track_name || "");
         return nameA.localeCompare(nameB);
@@ -13,21 +14,30 @@ d3.json(jsonUrl).then((songs) => {
     // ** SPIDER CHART **
     // Populate the dropdown
     let dropdown = d3.select("#selDataset");
+    // Iterate throught each song
     sortedSongs.forEach((song, index) => {
+        // Populate with song an artist.
         let trackWithArtist = `${song.track_name} by ${song["artist(s)_name"]}`;
+        // If the text is more than 40 char, then we substract the firt 38 chars and add "..." and save it to trackWithArtist
         let truncatedTrack = trackWithArtist.length > 40 ? trackWithArtist.substring(0, 37) + '...' : trackWithArtist;
+        // Adds an <option> element for each song to the dropdown.
         dropdown.append("option")
+            // Display
             .text(truncatedTrack)
+            // Sets the value of the option to the song's index for later retrieval.
             .property("value", index);
     });
     // Build radar chart for the first song from the unsorted list
     let firstSong = sortedSongs[0];
     buildRadarChart(firstSong);
     // Update radar chart based on the selected song from the sorted list
+    // When the selection changes, the function runs.
     dropdown.on("change", function () {
         let selectedIndex = dropdown.property("value");
-        let selectedSong = sortedSongs[selectedIndex]; // Match selection from sorted array
-        let originalSong = songs.find(song => song.track_name === selectedSong.track_name); // Find the song in the unsorted list
+        // Match selection from sorted array
+        let selectedSong = sortedSongs[selectedIndex]; 
+        // Find the song in the unsorted list
+        let originalSong = songs.find(song => song.track_name === selectedSong.track_name); 
         buildRadarChart(originalSong); // Pass the correct song data to the radar chart
     });
     // Function to build the radar (spiderweb) chart
@@ -131,7 +141,7 @@ d3.json(jsonUrl).then((songs) => {
             }
         });
     }
-
+    // ** WORDCLOUD **
     // Create the Wordcloud chart
     const wordcloudData = processWordcloudData(songs);
     Highcharts.chart('container-wc', {
@@ -190,10 +200,35 @@ function processWordcloudData(songs) {
     return filteredData;
 }
 
-
+// ** BARCHART **
 // Function to process the top 20 songs based on streams for the bar chart
+let songs; // Declare a global variable to hold the songs data
+
+// Load the Spotify JSON data using d3.json
+d3.json(jsonUrl).then((data) => {
+    songs = data; // Store the loaded songs data
+    updateBarChart(); // Initial rendering of the bar chart
+});
+
+// Function to update the bar chart based on checkbox status
+function updateBarChart() {
+    const show2023Only = document.getElementById("filter2023").checked;
+    
+    // Filter songs if checkbox is checked
+    const filteredSongs = show2023Only 
+        ? songs.filter(song => song.released_year === 2023) 
+        : songs;
+
+    const { categories, streams, artists } = processBarChartData(filteredSongs);
+    buildBarChart(categories, streams, artists);
+}
+
+// Checkbox event listener
+document.getElementById("filter2023").addEventListener("change", updateBarChart);
+
+// ** BARCHART **
 function processBarChartData(songs) {
-    // Convert 'streams' to ensure they are all numbers (handle $numberLong case)
+    // Convert 'streams' to ensure they are all numbers
     songs.forEach(song => {
         if (typeof song.streams === 'object' && song.streams.$numberLong) {
             song.streams = parseInt(song.streams.$numberLong, 10); // Convert $numberLong to integer
@@ -201,16 +236,19 @@ function processBarChartData(songs) {
             song.streams = Number(song.streams); // Convert other values to number
         }
     });
-    // Sort the remaining songs by streams in descending order
+
+    // Sort the remaining songs by streams in descending order and get top 20
     const topSongs = songs.sort((a, b) => b.streams - a.streams).slice(0, 20);
+    
     // Prepare data for the bar chart
     const categories = topSongs.map(song => song.track_name); // Song names
     const streams = topSongs.map(song => song.streams); // Stream counts
     const artists = topSongs.map(song => song["artist(s)_name"]); // Artist names
+    
     return { categories, streams, artists };
 }
 
-// UPDATED FUNCTION: Create the bar chart with artist names in the tooltip and Spotify styling
+// Create the bar chart with artist names in the tooltip and Spotify styling
 function buildBarChart(categories, streams, artists) {
     Highcharts.chart('container-bar', {
         chart: {
@@ -225,7 +263,7 @@ function buildBarChart(categories, streams, artists) {
             }
         },
         xAxis: {
-            categories: categories, 
+            categories: categories,
             labels: {
                 style: {
                     color: '#FFFFFF' // White x-axis labels
@@ -246,15 +284,7 @@ function buildBarChart(categories, streams, artists) {
             }
         },
         legend: {
-            layout: 'vertical',
-            align: 'right',
-            verticalAlign: 'top',
-            itemStyle: {
-                color: '#FFFFFF' // White legend text
-            },
-            itemMarginTop: 10, // Adjust margin between legend items
-            padding: 5, // Reduce padding
-            symbolHeight: 10 // Reduce symbol height to minimize space
+            enabled: false,
         },
         plotOptions: {
             bar: {
@@ -268,7 +298,7 @@ function buildBarChart(categories, streams, artists) {
         },
         series: [{
             name: 'Streams',
-            data: streams, 
+            data: streams,
             color: '#1DB954' // Spotify green for the bars
         }],
         tooltip: {
@@ -285,7 +315,7 @@ function buildBarChart(categories, streams, artists) {
             }
         },
         credits: {
-            enabled: false
+            enabled: false // Disable credits in the chart
         }
     });
 }
