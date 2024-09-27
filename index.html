@@ -22,9 +22,9 @@
 </head>
 <body>
 
-    <div class="section" style="background-color: #12D861">
+    <div class="section" style="background-color: #12D861;">
         <div class="main-container">
-        <div class="content_header">
+        <div class="content_header" >
             <div style="width: 50%;"  >
             <h1 style="max-width: 550px;">Analyzing the most streamed Spotify songs of 2023</h1>
             </div>
@@ -40,7 +40,7 @@
                  <!-- Container for the Bar Chart (Top 20 Songs by Streams) -->
                  <h2>"Most streamed songs in 2023"</h2>
                  <!-- Checkbox for filtering by release year -->
-                <label>
+                <label class="label-pop">
                     <input type="checkbox" id="filter2023" /> Show only 2023 songs
                 </label>
                 <figure class="highcharts-figure">
@@ -54,19 +54,19 @@
         <div class="main-container">
             <div class="content">
                 <!-- Container for the Wordcloud chart -->
-                <h2>"Who is the most popular Artist on Spotify 2023?"</h2>
-                <h3>"Wordcloud showing the most repeated artists in Spotify songs."</h3>
+                <h2>"Most popular Artists on Spotify 2023?"</h2>
+                <h3>Wordcloud showing the most repeated artists in Spotify songs.</h3>
                 <figure class="highcharts-figure">
                 <div id="container-wc"></div>
                 </figure>
             </div>
         </div>
     </div>
-    <div class="section">
+    <div class="section" style="padding-bottom: 150px;">
         <div class="main-container">
             <div class="content">
                 <!-- 1st chart title (Spyder) -->
-                <h2>"2023's Hit Tracks Unveiled: A Spider Chart of Sound"</h2>
+                <h2>"2023's Hit Tracks Unveiled:<br> A Spider Chart of Sound"</h2>
                 <!-- Dropdown for song selection -->
                 <div class="dropdown-container">
                     <label for="selDataset">Choose a song:</label>
@@ -75,29 +75,29 @@
                  <div id="song-metadata"></div>
                 </div>
                 <!-- Container for the spiderweb chart -->
-                <div id="container" style="width: 600px; height: 400px; margin: 0 auto"></div>
+                <div id="container" style="padding: 0px"></div>
                 <div class="text-body1">
                     <h3>These metrics describe various aspects of a song:</h3>
-                    <p> 💃 Danceability:<br>This measures how suitable a track is for dancing. It is determined by tempo, rhythm stability, 
-                        beat strength, and overall regularity. Higher danceability means the track is more danceable.
+                    <div class="metrics-rows">
+                    <p> 💃 <strong>Danceability:</strong><br>This measures how suitable a track is for dancing. It is determined by tempo, rhythm stability, 
+                        beat strength, and overall regularity.
                     </p>
-                    <p> 😁 Valence:<br>This describes the musical “positivity” conveyed by a track. High valence sounds more positive (happy, cheerful, euphoric), 
-                        while low valence indicates a more negative sound (sad, angry, depressed).
+                    <p> 😁 <strong>Valence:</strong><br>This describes the musical “positivity” conveyed by a track. High valence sounds more positive, 
+                        while low valence indicates a more negative sound.
                     </p>
-                    <p> ⚡ Energy:<br>A measure of intensity and activity. High-energy tracks feel fast, loud, and noisy, while low-energy tracks feel more calm and relaxed. 
-                        It's based on factors like tempo, dynamic range, and perceived loudness.
+                    <p> ⚡ <strong>Energy:</strong><br>A measure of intensity and activity. High-energy tracks feel fast, loud, and noisy, while low-energy tracks feel more calm and relaxed.
                     </p>
-                    <p> 🎻 Acousticness:<br>This measures the extent to which a track is acoustic. 
-                        A value close to 1.0 means the song is highly acoustic, while values closer to 0.0 mean it is more electronic or synthetic.
+                    </div>
+                    <div class="metrics-rows">
+                    <p> 🎻 <strong>Acousticness:</strong><br>This measures the extent to which a track is acoustic. 
+                        
                     </p>
-                    <p> 🙊 Instrumentalness:<br>This predicts the likelihood of a track being purely instrumental, without vocals. Higher values suggest fewer or no vocals, 
-                        while lower values indicate that the song is more likely to have lyrics.
+                    <p> 🙊 <strong>Instrumentalness:</strong><br>This predicts the likelihood of a track being purely instrumental, without vocals.
                     </p>
-                    <p> 📺 Liveness:<br>This detects the presence of an audience in a track, suggesting the likelihood that the track was recorded live. 
-                        Higher values mean the song feels more like a live performance.
+                    <p> 📺 <strong>Liveness:</strong><br>This detects the presence of an audience. Higher values mean the song feels more like a live performance.
                     </p>
-                    <p> 📣 Speechiness:<br>This measures the presence of spoken words in a track. High speechiness suggests a spoken-word piece (like a podcast or poetry), 
-                        while lower values are associated with traditional singing.</p>
+                    <p> 📣 <strong>Speechiness</strong>:<br>This measures the presence of spoken words in a track.</p>
+                    </div>
                 </div>
             </div>
         </div>
