@@ -26,6 +26,7 @@ body {
     padding: 0;
 }
 
+
 /* Section layout */
 .section {
     display: flex;
@@ -35,6 +36,7 @@ body {
 
 .main-container {
     max-width: 1200px;
+    width: 100%;
 }
 
 .content_header {
@@ -52,12 +54,19 @@ body {
     line-height: normal;
     letter-spacing: -0.2rem;
 }
+.h1_title_wrap{
+    width: 50%;
+}
 
 .content {
     padding: 40px 150px;
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.spoty-img{
+    max-height: 100%;
 }
 
 h2{
@@ -147,8 +156,8 @@ h3{
 
 /* Highcharts figure container styling */
 .highcharts-figure {
-    min-width: 320px;
-    width: 900px;
+    width: 100%;
+    max-width: 900px;
     margin: 1em auto;
     margin-top: 20px; /* Reducing top margin */
 }
@@ -193,4 +202,44 @@ h3{
 
 .highcharts-series-group {
     width: 100%;
+}
+
+
+
+/* Media query for mobile */
+@media (max-width: 480px) {
+    .content_header {
+        font-size: 1.25rem;
+        padding: 10px 20px;
+        text-align: center; /* Center the text */
+        flex-direction: column;
+    }
+
+    .content {
+        padding: 10px 20px;
+    }
+
+    .h1_title_wrap{
+        width: 100%;
+    }
+
+    .spoty-img{
+        max-height: 400px;
+    }
+
+    h2{
+        text-align: center;
+        font-size: 2rem;
+    }
+    
+
+    .highcharts-figure {
+        width: 100%; /* Make the chart container take full width */
+        height: auto;
+    }
+
+    #container-bar {
+        width: 100%;
+        height: 400px; /* Adjust height of chart for mobile */
+    }
 }
